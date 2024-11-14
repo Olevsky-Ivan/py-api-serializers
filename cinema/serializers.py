@@ -22,11 +22,26 @@ class ActorSerializer(serializers.ModelSerializer):
 class MovieSessionSerializer(serializers.ModelSerializer):
     movie_title = serializers.CharField(source="movie.title")
     cinema_hall_name = serializers.CharField(source="cinema_hall.name")
-    cinema_hall_capacity = serializers.IntegerField(source="cinema_hall.capacity")
+    cinema_hall_capacity = serializers.IntegerField(
+        source="cinema_hall.capacity"
+    )
 
     class Meta:
         model = MovieSession
-        fields = ("id", "show_time", "movie_title", "cinema_hall_name", "cinema_hall_capacity")
+        fields = (
+            "id",
+            "show_time",
+            "movie_title",
+            "cinema_hall_name",
+            "cinema_hall_capacity"
+        )
+
+
+class GenreSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Genre
+        fields = ("id", "name")
 
 
 class MovieSerializer(serializers.ModelSerializer):
@@ -38,16 +53,8 @@ class MovieSerializer(serializers.ModelSerializer):
         fields = ("id", "title", "description", "duration", "genres", "actors")
 
 
-class GenreSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = Genre
-        fields = ("id", "name")
-
-
 class MovieListSerializer(serializers.ModelSerializer):
     genres = GenreSerializer(many=True)
-
 
     class Meta:
         model = Movie
